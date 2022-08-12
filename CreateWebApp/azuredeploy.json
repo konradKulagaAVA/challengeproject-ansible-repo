@@ -188,11 +188,28 @@
 "networkSecurityGroups_challenge_rgnsg_externalid": {
     "defaultValue": "/subscriptions/aec799d0-d788-4e61-ac0f-017b5ec3300a/resourceGroups/challenge-rg/providers/Microsoft.Network/networkSecurityGroups/challenge-rgnsg",
     "type": "String"
+},
+"useVAManagedIdentity": {
+  "defaultValue": false,
+  "type": "Bool"
+},
+"enableVA": {
+  "defaultValue": false,
+  "type": "Bool"
+},
+"administratorLogin": {
+  "defaultValue": "azureadmin",
+  "type": "String"
+},
+"administratorLoginPassword": {
+  "defaultValue": "Azurepassword3#",
+  "type": "SecureString"
 }
   },
   "variables": {
     "webAppName": "[concat(parameters('webAppName'), '-', uniqueString(resourceGroup().id))]",
     "webAppPlanName": "[concat(parameters('webAppName'), 'Plan', '-', uniqueString(resourceGroup().id))]",
+    "azureSQLServerName": "[concat('sql-server-', uniqueString(resourceGroup().id))]",
     "applicationGatewayName": "[concat(parameters('appGatewayName'), '-', uniqueString(resourceGroup().id))]",
     "applicationGatewaySkuSize": "Standard_v2",
     "applicationGatewayTier": "Standard_v2",
@@ -414,6 +431,140 @@
                   "id": "[parameters('networkSecurityGroups_challenge_rgnsg_externalid')]"
               }
           }
+      },
+      {
+        "type": "Microsoft.Web/sites",
+        "apiVersion": "2021-02-01",
+        "name": "[parameters('functionAppName')]",
+        "location": "[parameters('location')]",
+        "kind": "functionapp",
+        "dependsOn": [
+          "[resourceId('Microsoft.Web/serverfarms', variables('webAppPlanName'))]",
+          "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageName'))]"
+        ],
+        "properties": {
+          "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('webAppPlanName'))]",
+          "siteConfig": {
+            "appSettings": [
+              {
+                "name": "AzureWebJobsStorage",
+                "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2019-06-01').keys[0].value)]"
+              },
+              {
+                "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+                "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2019-06-01').keys[0].value)]"
+              },
+              {
+                "name": "WEBSITE_CONTENTSHARE",
+                "value": "[toLower(parameters('functionAppName'))]"
+              },
+              {
+                "name": "FUNCTIONS_EXTENSION_VERSION",
+                "value": "~4"
+              },
+              {
+                "name": "FUNCTIONS_WORKER_RUNTIME",
+                "value": "node"
+              },
+              {
+                "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                "value": "~14"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "Microsoft.Logic/workflows",
+        "apiVersion": "2019-05-01",
+        "name": "[parameters('logicAppName')]",
+        "location": "[parameters('location')]",
+        "tags": {
+            "displayName": "[parameters('logicAppName')]"
+        },
+        "properties": {
+            "definition": {
+                "$schema": "[variables('workflowSchema')]",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                    "testUri": {
+                        "type": "string",
+                        "defaultValue": "[parameters('testUri')]"
+                    }
+                },
+                "triggers": {
+                    "recurrence": {
+                        "type": "[variables('type')]",
+                        "recurrence": {
+                            "frequency": "[variables('frequency')]",
+                            "interval": "[variables('interval')]"
+                        }
+                    }
+                },
+                "actions": {
+                    "actionType": {
+                        "type": "[variables('actionType')]",
+                        "inputs": {
+                            "method": "[variables('method')]",
+                            "uri": "[parameters('testUri')]"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2021-11-01-preview",
+      "name": "[parameters('keyVaultName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "enabledForDeployment": "[parameters('enabledForDeployment')]",
+        "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
+        "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+        "tenantId": "[parameters('tenantId')]",
+        "accessPolicies": [
+          {
+            "objectId": "[parameters('objectId')]",
+            "tenantId": "[parameters('tenantId')]",
+            "permissions": {
+              "keys": "[parameters('keysPermissions')]",
+              "secrets": "[parameters('secretsPermissions')]"
+            }
+          }
+        ],
+        "sku": {
+          "name": "[parameters('skuName')]",
+          "family": "A"
+        },
+        "networkAcls": {
+          "defaultAction": "Allow",
+          "bypass": "AzureServices"
+        }
       }
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults/secrets",
+      "apiVersion": "2021-11-01-preview",
+      "name": "[format('{0}/{1}', parameters('keyVaultName'), parameters('secretName'))]",
+      "properties": {
+        "value": "[parameters('secretValue')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Sql/servers",
+      "apiVersion": "2020-11-01-preview",
+      "name": "[variables('azureSQLServerName')]",
+      "location": "[parameters('location')]",
+      "identity": "[if(and(parameters('enableVA'),parameters('useVAManagedIdentity')), json('{\"type\":\"SystemAssigned\"}'), json('null'))]",
+      "properties": {
+          "version": "12.0",
+          "administratorLogin": "[parameters('administratorLogin')]",
+          "administratorLoginPassword": "[parameters('administratorLoginPassword')]"
+      }
+    }
   ]
 }
