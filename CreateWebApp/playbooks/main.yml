@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+
+  # Our main "tasks" block, to put all modules execution we need
+  tasks:
+  # Below, we are executing task named "Hello World Type Task".
+  # That task will use "set_fact" module. This module set ansible variable.
+  # More at: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/set_fact_module.html
+  - name: Create Azure
+    set_fact:
+      my_super_important_variable: 'I love Ansible!'
+  # Below, we are executing task named "Print varialbe".
+  # That task will use "debug" module. This module is used to print messages - here we will print ansible variable.
+  # More at: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/debug_module.html
+  - name: Print varialbe we just set
+    debug:
+      msg: '{{ my_super_important_variable }}'
+      
+  - name: Let's see who executed this ?
+    debug:
+      msg: 'I know your email! -> {{ executor_email }}'
+      
+        
+
+    

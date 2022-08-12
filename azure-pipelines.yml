@@ -1,13 +1,20 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: Ansible@0
+    displayName: Run Ansbile playbook
+    inputs:
+      ansibleInterface: 'agentMachine'
+      playbookPathOnAgentMachine: 'playbooks/main.yml'
+      inventoriesAgentMachine: 'noInventory'
+      args: |
+        -e "executor_email=$(Build.RequestedForEmail)
+        " -vv
+      failOnStdErr: false
 
 steps:
 - task: AzureResourceManagerTemplateDeployment@3
