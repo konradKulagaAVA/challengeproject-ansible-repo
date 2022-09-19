@@ -21,11 +21,7 @@
       msg: 'I know your email! -> {{ executor_email }}'
 
   - name: Install pip and azure packages ?
-    sudo: yum update -y
-    sudo: yum install -y python3-pip
-    sudo: pip3 install --upgrade pip
-    pip3: install "ansible==2.9.17"
-    pip3: install ansible[azure]
+    ansible.builtin.shell: script.sh >> somelog.txt
     
   - name: createAzureDeploy
     azure_rm_deployment:
