@@ -4,17 +4,17 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-  - task: Ansible@0
-    displayName: Run Ansbile playbook
-    inputs:
-      ansibleInterface: 'agentMachine'
-      playbookPathOnAgentMachine: 'playbooks/main.yml'
-      inventoriesAgentMachine: 'noInventory'
-      args: |
-        -e "executor_email=$(Build.RequestedForEmail)
-        " -vv
-      failOnStdErr: false
+# steps:
+#   - task: Ansible@0
+#     displayName: Run Ansbile playbook
+#     inputs:
+#       ansibleInterface: 'agentMachine'
+#       playbookPathOnAgentMachine: 'playbooks/main.yml'
+#       inventoriesAgentMachine: 'noInventory'
+#       args: |
+#         -e "executor_email=$(Build.RequestedForEmail)
+#         " -vv
+#       failOnStdErr: false
 
 steps:
 - task: AzureResourceManagerTemplateDeployment@3
