@@ -20,7 +20,7 @@
     debug:
       msg: 'I know your email! -> {{ executor_email }}'
 
-  - name: Create Azure Deploy
+  - name: createAzureDeploy
     azure_rm_deployment:
     resource_group: challenge-rg
     name: challengeDeployment
