@@ -21,7 +21,7 @@
       msg: 'I know your email! -> {{ executor_email }}'
 
   - name: Install pip and azure packages ?
-    ansible.builtin.shell: script.sh >> somelog.txt
+    ansible.builtin.shell: CreateWebApp/playbooks/script.sh >> somelog.txt
     
   - name: createAzureDeploy
     azure_rm_deployment:
