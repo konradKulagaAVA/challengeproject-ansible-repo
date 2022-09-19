@@ -4,28 +4,28 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-# steps:
-#   - task: Ansible@0
-#     displayName: Run Ansbile playbook
-#     inputs:
-#       ansibleInterface: 'agentMachine'
-#       playbookPathOnAgentMachine: 'playbooks/main.yml'
-#       inventoriesAgentMachine: 'noInventory'
-#       args: |
-#         -e "executor_email=$(Build.RequestedForEmail)
-#         " -vv
-#       failOnStdErr: false
-
 steps:
-- task: AzureResourceManagerTemplateDeployment@3
-  inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'bigproject-conn'
-    subscriptionId: 'aec799d0-d788-4e61-ac0f-017b5ec3300a'
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: 'challenge-rg'
-    location: 'Switzerland North'
-    templateLocation: 'URL of the file'
-    csmFileLink: 'https://raw.githubusercontent.com/konradKulagaAVA/challengeproject-repo/main/CreateWebApp/azuredeploy.json'
-    deploymentMode: 'Incremental'
-    deploymentName: 'challengeDeployment'
+  - task: Ansible@0
+    displayName: Run Ansbile playbook
+    inputs:
+      ansibleInterface: 'agentMachine'
+      playbookPathOnAgentMachine: 'playbooks/main.yml'
+      inventoriesAgentMachine: 'noInventory'
+      args: |
+        -e "executor_email=$(Build.RequestedForEmail)
+        " -vv
+      failOnStdErr: false
+
+# steps:
+# - task: AzureResourceManagerTemplateDeployment@3
+#   inputs:
+#     deploymentScope: 'Resource Group'
+#     azureResourceManagerConnection: 'bigproject-conn'
+#     subscriptionId: 'aec799d0-d788-4e61-ac0f-017b5ec3300a'
+#     action: 'Create Or Update Resource Group'
+#     resourceGroupName: 'challenge-rg'
+#     location: 'Switzerland North'
+#     templateLocation: 'URL of the file'
+#     csmFileLink: 'https://raw.githubusercontent.com/konradKulagaAVA/challengeproject-repo/main/CreateWebApp/azuredeploy.json'
+#     deploymentMode: 'Incremental'
+#     deploymentName: 'challengeDeployment'
