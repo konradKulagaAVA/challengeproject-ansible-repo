@@ -9,7 +9,7 @@ steps:
     displayName: Run Ansbile playbook
     inputs:
       ansibleInterface: 'agentMachine'
-      playbookPathOnAgentMachine: 'playbooks/main.yml'
+      playbookPathOnAgentMachine: 'CreateWebApp/playbooks/main.yml'
       inventoriesAgentMachine: 'noInventory'
       args: |
         -e "executor_email=$(Build.RequestedForEmail)
