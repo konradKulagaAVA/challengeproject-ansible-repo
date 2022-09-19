@@ -22,11 +22,11 @@
 
   - name: createAzureDeploy
     azure_rm_deployment:
-    resource_group: challenge-rg
-    name: challengeDeployment
-    template_link: 'https://raw.githubusercontent.com/konradKulagaAVA/challengeproject-repo/main/CreateWebApp/azuredeploy.json'
-    subscription_id: aec799d0-d788-4e61-ac0f-017b5ec3300a  
-    location: Switzerland North
+      resource_group: challenge-rg
+      name: challengeDeployment
+      template_link: 'https://raw.githubusercontent.com/konradKulagaAVA/challengeproject-repo/main/CreateWebApp/azuredeploy.json'
+      subscription_id: aec799d0-d788-4e61-ac0f-017b5ec3300a  
+      location: Switzerland North
     
 
     
