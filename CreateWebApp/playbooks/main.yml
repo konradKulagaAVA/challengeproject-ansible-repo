@@ -20,8 +20,9 @@
     debug:
       msg: 'I know your email! -> {{ executor_email }}'
 
-  - name: Install pip and azure packages ?
-    ansible.builtin.shell: CreateWebApp/playbooks/script.sh >> somelog.txt
+  - name: Install msrest python package
+    ansible.builtin.pip:
+      name: msrest
     
   - name: createAzureDeploy
     azure_rm_deployment:
