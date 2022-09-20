@@ -23,7 +23,10 @@
   - name: Install msrest python package
     ansible.builtin.pip:
       name: msrest
-    
+  - name: Install msrest python package
+    ansible.builtin.pip:
+      name: azure_rm
+      
   - name: createAzureDeploy
     azure_rm_deployment:
       resource_group: challenge-rg
