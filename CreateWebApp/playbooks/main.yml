@@ -1,6 +1,7 @@
 ---
 - hosts: localhost
-
+  collections:
+   - azure.azcollection
   # Our main "tasks" block, to put all modules execution we need
   tasks:
   # Below, we are executing task named "Hello World Type Task".
