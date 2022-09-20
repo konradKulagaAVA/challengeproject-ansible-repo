@@ -32,6 +32,10 @@
     ansible.builtin.pip:
       name: ansible[azure]
 
+  - name: Install azure.cli python package
+    ansible.builtin.pip:
+      name: azure.cli
+
   - name: createAzureDeploy
     azure_rm_deployment:
       resource_group: challenge-rg
