@@ -37,6 +37,22 @@
     ansible.builtin.pip:
       name: azure.cli
 
+  - name: Install azure-storage-blob python package
+    ansible.builtin.pip:
+      name: azure-storage-blob
+
+  - name: Install azure-storage-file-share python package
+    ansible.builtin.pip:
+      name: azure-storage-file-share
+
+  - name: Install azure-storage-file-datalake python package
+    ansible.builtin.pip:
+      name: azure-storage-file-datalake
+
+  - name: Install azure-storage-queue python package
+    ansible.builtin.pip:
+      name: azure-storage-queue
+
   - name: createAzureDeploy
     azure_rm_deployment:
       resource_group: challenge-rg
