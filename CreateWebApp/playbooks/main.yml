@@ -20,13 +20,13 @@
     debug:
       msg: 'I know your email! -> {{ executor_email }}'
 
-  # - name: Install msrest python package
-  #   ansible.builtin.pip:
-  #     name: msrest
+  - name: Install msrest python package
+    ansible.builtin.pip:
+      name: msrest
 
-  # - name: Install msrestazure python package
-  #   ansible.builtin.pip:
-  #     name: msrestazure
+  - name: Install msrestazure python package
+    ansible.builtin.pip:
+      name: msrestazure
 
   - name: Install ansible[azure] python package
     ansible.builtin.pip:
