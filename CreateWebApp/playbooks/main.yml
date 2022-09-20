@@ -24,18 +24,21 @@
     ansible.builtin.pip:
       name: msrest
 
-  # - name: Install msrestazure python package
-  #   ansible.builtin.pip:
-  #     name: msrestazure
+  - name: Install msrestazure python package
+    ansible.builtin.pip:
+      name: msrestazure
 
-  # - name: Install ansible[azure] python package
-  #   ansible.builtin.pip:
-  #     name: ansible[azure]
+  - name: Install ansible[azure] python package
+    ansible.builtin.pip:
+      name: ansible[azure]
 
-  # - name: Install azure.cli python package
-  #   ansible.builtin.pip:
-  #     name: azure.cli
-
+  - name: Install azure.cli python package
+    ansible.builtin.pip:
+      name: azure.cli
+  - name: Install azure.storage.cloudstorageaccount python package
+    ansible.builtin.pip:
+      name: azure.storage.cloudstorageaccount
+      
   - name: Install requirements from file
     ansible.builtin.pip:
       requirements: /home/vsts/work/1/s/CreateWebApp/playbooks/requirements.txt
