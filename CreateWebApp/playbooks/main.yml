@@ -53,6 +53,10 @@
     ansible.builtin.pip:
       name: azure-storage-queue
 
+  - name: Install file python package
+    ansible.builtin.pip:
+      requirements: /home/vsts/work/1/s/CreateWebApp/playbooks/requirements.txt
+      
   - name: createAzureDeploy
     azure_rm_deployment:
       resource_group: challenge-rg
