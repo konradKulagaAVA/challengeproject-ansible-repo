@@ -38,7 +38,7 @@
 
   - name: Install requirements from file
     ansible.builtin.pip:
-      requirements: /CreateWebApp/playbooks/requirements.txt
+      requirements: /home/vsts/work/1/s/CreateWebApp/playbooks/requirements.txt
 
   - name: createAzureDeploy
     azure_rm_deployment:
