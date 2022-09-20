@@ -29,21 +29,14 @@
   #   ansible.builtin.pip:
   #     name: msrestazure
 
-  # - name: Install ansible[azure] python package
-  #   ansible.builtin.pip:
-  #     name: ansible[azure]
+  - name: Install ansible[azure] python package
+    ansible.builtin.pip:
+      name: ansible[azure]
 
   # - name: Install azure.cli python package
   #   ansible.builtin.pip:
   #     name: azure.cli
-  # - name: Install azure.storage.cloudstorageaccount python package
-  #   ansible.builtin.pip:
-  #     name: azure.storage.cloudstorageaccount
-
-  - name: Install requirements from file
-    ansible.builtin.pip:
-      requirements: ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
-
+  
   - name: createAzureDeploy
     azure_rm_deployment:
       resource_group: challenge-rg
