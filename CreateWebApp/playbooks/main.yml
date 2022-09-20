@@ -41,7 +41,7 @@
 
   - name: Install requirements from file
     ansible.builtin.pip:
-      requirements: /usr/lib/python3/dist-packages/ansible_collections/azure/azcollection/requirements-azure.txt
+      requirements: ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
 
   - name: createAzureDeploy
     azure_rm_deployment:
