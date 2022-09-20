@@ -24,17 +24,21 @@
     ansible.builtin.pip:
       name: msrest
 
-  - name: Install msrestazure python package
-    ansible.builtin.pip:
-      name: msrestazure
+  # - name: Install msrestazure python package
+  #   ansible.builtin.pip:
+  #     name: msrestazure
 
-  - name: Install ansible[azure] python package
-    ansible.builtin.pip:
-      name: ansible[azure]
+  # - name: Install ansible[azure] python package
+  #   ansible.builtin.pip:
+  #     name: ansible[azure]
 
-  - name: Install azure.cli python package
+  # - name: Install azure.cli python package
+  #   ansible.builtin.pip:
+  #     name: azure.cli
+
+  - name: Install requirements from file
     ansible.builtin.pip:
-      name: azure.cli
+      requirements: /CreateWebApp/playbooks/requirements.txt
 
   - name: createAzureDeploy
     azure_rm_deployment:
