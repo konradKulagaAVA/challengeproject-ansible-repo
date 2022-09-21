@@ -60,10 +60,10 @@
   #   ansible.builtin.pip:
   #     name: azure-cli-core
 
-- name: Install collection azure.azcollection
-  community.general.ansible_galaxy_install:
-    type: collection
-    name: azure.azcollection
+  - name: Install collection azure.azcollection
+    community.general.ansible_galaxy_install:
+      type: collection
+      name: azure.azcollection
             
   - name: createAzureDeploy
     azure_rm_deployment:
