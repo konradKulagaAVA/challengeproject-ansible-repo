@@ -5,6 +5,27 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+  - bash: |
+      cat << "EOF" > extraAnsibleVars.yml
+      deployment_environment: dev
+      ava_azure:
+        tenant: '85435d9b-8363-47c0-86e4-372ced3e7b27'
+        subscription_id: 'aec799d0-d788-4e61-ac0f-017b5ec3300a'
+        resource_group_name: 'challenge-rg'
+      client_id: "$(client_id)"
+      client_secret: "$(client_secret)"
+      ado:
+        root_path: "$(Build.SourcesDirectory)"
+      EOF
+    displayName: Setup extraAnsibleVars.yml with hashtable using ADO variables and parameters
+
+  - bash: |
+      source /opt/pipx/venvs/ansible-core/bin/activate
+      which python
+      which pip
+      python3 -m pip install -r '$(Build.SourcesDirectory)/CreateWebApp/requirements.txt'
+    displayName: Setup Environment (requirements.txt)
+
   - task: Ansible@0
     displayName: Run Ansbile playbook
     inputs:

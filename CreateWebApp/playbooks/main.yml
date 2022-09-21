@@ -20,55 +20,21 @@
   - name: Let's see who executed this ?
     debug:
       msg: 'I know your email! -> {{ executor_email }}'
-
-  - name: Install msrest python package
-    ansible.builtin.pip:
-      name: msrest
-
-  - name: Install msrestazure python package
-    ansible.builtin.pip:
-      name: msrestazure
-
-  - name: Install ansible[azure] python package
-    ansible.builtin.pip:
-      name: ansible[azure]
-
-  - name: Install azure.cli python package
-    ansible.builtin.pip:
-      name: azure.cli
-
-  - name: Install azure-storage-blob python package
-    ansible.builtin.pip:
-      name: azure-storage-blob
-
-  - name: Install azure-storage-file-share python package
-    ansible.builtin.pip:
-      name: azure-storage-file-share
-
-  - name: Install azure-storage-file-datalake python package
-    ansible.builtin.pip:
-      name: azure-storage-file-datalake
-
-  - name: Install azure-storage-queue python package
-    ansible.builtin.pip:
-      name: azure-storage-queue
-
-  - name: Install file python package
-    ansible.builtin.pip:
-      requirements: /home/vsts/work/1/s/CreateWebApp/playbooks/requirements.txt
-
-  - name: Install collection azure.azcollection
-    community.general.ansible_galaxy_install:
-      type: collection
-      name: azure.azcollection
-            
+    
   - name: createAzureDeploy
     azure_rm_deployment:
       resource_group: challenge-rg
       name: challengeDeployment
-      template_link: 'https://raw.githubusercontent.com/konradKulagaAVA/challengeproject-repo/main/CreateWebApp/azuredeploy.json'
-      subscription_id: aec799d0-d788-4e61-ac0f-017b5ec3300a  
+      template: 'https://raw.githubusercontent.com/konradKulagaAVA/challengeproject-repo/main/CreateWebApp/azuredeploy.json'
       location: Switzerland North
-    
+      client_id: "{{ client_id }}"
+      subscription_id: "{{ ava_azure.subscription_id }}"
+      tenant: "{{ ava_azure.tenant }}"
+      secret: "{{ client_secret }}"
+    register: e5_azure_deployment_response
+  
+  - name: Show deployed instances
+    debug:
+      msg: "{{ e5_azure_deployment_response.deployment.instances }}"
 
     
