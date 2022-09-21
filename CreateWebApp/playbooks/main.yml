@@ -21,44 +21,49 @@
     debug:
       msg: 'I know your email! -> {{ executor_email }}'
 
-  - name: Install msrest python package
-    ansible.builtin.pip:
-      name: msrest
+  # - name: Install msrest python package
+  #   ansible.builtin.pip:
+  #     name: msrest
 
-  - name: Install msrestazure python package
-    ansible.builtin.pip:
-      name: msrestazure
+  # - name: Install msrestazure python package
+  #   ansible.builtin.pip:
+  #     name: msrestazure
 
-  - name: Install ansible[azure] python package
-    ansible.builtin.pip:
-      name: ansible[azure]
+  # - name: Install ansible[azure] python package
+  #   ansible.builtin.pip:
+  #     name: ansible[azure]
 
-  - name: Install azure.cli python package
-    ansible.builtin.pip:
-      name: azure.cli
+  # - name: Install azure.cli python package
+  #   ansible.builtin.pip:
+  #     name: azure.cli
 
-  - name: Install azure-storage-blob python package
-    ansible.builtin.pip:
-      name: azure-storage-blob
+  # - name: Install azure-storage-blob python package
+  #   ansible.builtin.pip:
+  #     name: azure-storage-blob
 
-  - name: Install azure-storage-file-share python package
-    ansible.builtin.pip:
-      name: azure-storage-file-share
+  # - name: Install azure-storage-file-share python package
+  #   ansible.builtin.pip:
+  #     name: azure-storage-file-share
 
-  - name: Install azure-storage-file-datalake python package
-    ansible.builtin.pip:
-      name: azure-storage-file-datalake
+  # - name: Install azure-storage-file-datalake python package
+  #   ansible.builtin.pip:
+  #     name: azure-storage-file-datalake
 
-  - name: Install azure-storage-queue python package
-    ansible.builtin.pip:
-      name: azure-storage-queue
+  # - name: Install azure-storage-queue python package
+  #   ansible.builtin.pip:
+  #     name: azure-storage-queue
 
-  - name: Install file python package
-    ansible.builtin.pip:
-      requirements: /home/vsts/work/1/s/CreateWebApp/playbooks/requirements.txt
-  - name: Install azure-cli-core python package
-    ansible.builtin.pip:
-      name: azure-cli-core
+  # - name: Install file python package
+  #   ansible.builtin.pip:
+  #     requirements: /home/vsts/work/1/s/CreateWebApp/playbooks/requirements.txt
+  # - name: Install azure-cli-core python package
+  #   ansible.builtin.pip:
+  #     name: azure-cli-core
+
+- name: Install collection azure.azcollection
+  community.general.ansible_galaxy_install:
+    type: collection
+    name: azure.azcollection
             
   - name: createAzureDeploy
     azure_rm_deployment:
